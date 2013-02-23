@@ -29,3 +29,20 @@ def get_fullname(object):
   define both the __name__ and __module__ attributes.
   """
   return "%s.%s" % (object.__module__, object.__name__)
+
+
+
+def _defined_by(module):
+  for name in dir(module):
+    o = getattr(module, name)
+    if hasattr(o, "__module__") and o.__module__ == module.__name__:
+      yield name
+
+def defined_by(module):
+  """
+  Returns the list of objects that were actually defined by the
+  specified module.  In other words: this will not list the objects
+  that were imported from other modules.
+  """
+  return list(_defined_by(module))
+
