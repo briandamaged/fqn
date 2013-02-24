@@ -1,4 +1,4 @@
-from fqn import get_object, get_fullname
+from fqn import get_object, get_fullname, module_for
 
 from unittest import TestCase
 
@@ -69,5 +69,18 @@ class Test_get_fullname(TestCase):
     self.assertEqual(get_fullname(function), "foo.bar.core.function")
 
 
+  def test_it_raises_an_AttributeError_when_the_fullname_cannot_be_determined(self):
+    self.assertRaises(AttributeError, get_fullname, "hello")
+
+
+
+class Test_module_for(TestCase):
+  def test_it_returns_the_original_object_when_given_a_module(self):
+    import foo
+    self.assertEqual(module_for(foo), foo)
+
+  def test_it_returns_the_objects_module_when_given_a_function(self):
+    import foo.bar.core
+    self.assertEqual(module_for(foo.bar.core.Bar), foo.bar.core)
 
 

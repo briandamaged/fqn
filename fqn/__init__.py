@@ -47,6 +47,24 @@ def get_fullname(object):
 
 
 
+def module_for(object):
+  """
+  Helper function:
+  
+   * If the object is a module, then return the object.
+   * Otherwise, return the module that the object belongs to.
+     Note: This will only work for objects that are aware of their
+     module.  This basically means classes, types, and functions.
+  """
+  import sys
+  import types
+  if isinstance(object, types.ModuleType):
+    return object
+  else:
+    return sys.modules[object.__module__]
+
+
+
 def _defined_by(module):
   for name in dir(module):
     o = getattr(module, name)
