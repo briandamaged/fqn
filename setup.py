@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name = 'fqn',
-    version = '0.1.0',
+    version = '0.7.0',
     description = 'Functions that can retrieve objects using Fully Qualified Names',
     author = 'Brian Lauber',
     author_email = 'constructible.truth@gmail.com',
