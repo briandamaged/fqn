@@ -17,8 +17,11 @@ def get_object(fullname):
   except ImportError:
     retval = __import__(".".join(components[:-1]), level = 0)
   
-  for c in components[1:]:
-    retval = getattr(retval, c)
+  try:
+    for c in components[1:]:
+      retval = getattr(retval, c)
+  except AttributeError:
+    raise ImportError("cannot import name " + c)
   
   return retval
 
