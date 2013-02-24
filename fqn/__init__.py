@@ -12,18 +12,26 @@ def get_object(fullname):
     
   """
   components = fullname.split(".")
-  try:
-    retval = __import__(fullname, level = 0)
-  except ImportError:
-    retval = __import__(".".join(components[:-1]), level = 0)
+
+  # Find the module boundary
+  for x in xrange(len(components), 0, -1):
+    try:
+      obj = __import__(".".join(components[0:x]), level = 0)
+      break
+    except ImportError:
+      pass
+  else:
+    raise ImportError("cannot import " + fullname)
   
+  
+  # Crawl the object model to find the desired object
   try:
     for c in components[1:]:
-      retval = getattr(retval, c)
+      obj = getattr(obj, c)
   except AttributeError:
-    raise ImportError("cannot import name " + c)
+    raise ImportError("cannot import " + fullname)
   
-  return retval
+  return obj
 
 
 def get_fullname(object):
