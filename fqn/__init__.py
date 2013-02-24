@@ -57,3 +57,14 @@ def defined_by(module):
   """
   return list(_defined_by(module))
 
+
+
+def _imported_by(module):
+  for name in dir(module):
+    o = getattr(module, name)
+    if hasattr(o, "__module__") and o.__module__ != module.__name__:
+      yield name
+
+
+def imported_by(module):
+  return list(_imported_by(module))
