@@ -37,4 +37,9 @@ class Test_get_object(TestCase):
     # than a sameness check.
     self.assertEqual(obj, Bar.method)
 
-
+  def test_it_can_return_objects_that_were_imported_from_other_modules(self):
+    # foo.quux imports Bar from foo.bar.core
+    obj = get_object("foo.quux.Bar")
+    
+    from foo.bar.core import Bar
+    self.assertEqual(id(obj), id(Bar))
