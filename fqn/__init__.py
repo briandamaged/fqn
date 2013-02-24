@@ -36,10 +36,14 @@ def get_object(fullname):
 
 def get_fullname(object):
   """
-  Returns the full name for the given object.  The object must
-  define both the __name__ and __module__ attributes.
+  Returns the full name for the given object.  The object must be
+  either a module, a class, a type, or a function.
   """
-  return "%s.%s" % (object.__module__, object.__name__)
+  import types
+  if isinstance(object, types.ModuleType):
+    return object.__name__
+  else:
+    return ".".join([object.__module__, object.__name__])
 
 
 

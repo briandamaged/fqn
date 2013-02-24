@@ -1,4 +1,4 @@
-from fqn import get_object
+from fqn import get_object, get_fullname
 
 from unittest import TestCase
 
@@ -43,3 +43,31 @@ class Test_get_object(TestCase):
     
     from foo.bar.core import Bar
     self.assertEqual(id(obj), id(Bar))
+
+
+
+
+class Test_get_fullname(TestCase):
+  def test_it_returns_the_name_of_a_module(self):
+    import foo.bar
+    self.assertEqual(get_fullname(foo.bar), "foo.bar")
+
+  def test_it_returns_the_name_of_a_class(self):
+    # Even though we're importing Bar from foo.quux, Bar is actually
+    # defined in foo.bar.core
+    from foo.quux import Bar
+    self.assertEqual(get_fullname(Bar), "foo.bar.core.Bar")
+
+  def test_it_returns_the_name_of_a_type(self):
+    self.assertEqual(get_fullname(int), "__builtin__.int")
+
+
+  def test_it_returns_the_name_of_a_function(self):
+    # Even though we're importing the function from foo.quux, it is
+    # actually defined in foo.bar.core
+    from foo.quux import function
+    self.assertEqual(get_fullname(function), "foo.bar.core.function")
+
+
+
+
